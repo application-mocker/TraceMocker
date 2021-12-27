@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-// SimpleHandler only GET target next-route.
+// SimpleHandler only GET target next-route, and return target response.
 func SimpleHandler(ctx *gin.Context) {
 	reqBody := &model.SimpleRequestBody{}
 	if err := ctx.BindJSON(reqBody); err != nil {
