@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trace-mocker-v1
+  namespace: mockers
+  labels:
+    app: trace-mocker
+    version: v1
+spec:
+  ports:
+    - port: 3000
+      name: http-prom-port
+  selector:
+    app: trace-mocker
+    version: v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trace-mocker-np
+  namespace: mockers
+  labels:
+    app: trace-mocker
+    version: v1
+spec:
+  ports:
+    - port: 3000
+      name: http-prom-port
+  selector:
+    app: trace-mocker
+    version: v1
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trace-mocker
+  namespace: mockers
+  labels:
+    app: trace-mocker
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trace-mocker
+      version: v1
+  template:
+    metadata:
+      namespace: mockers
+      labels:
+        app: trace-mocker
+        version: v1
+    spec:
+      containers:
+        - name: trace-mocker
+          image: mxudong/trace-mocker:v1.0.0
+          ports:
+            - containerPort: 3000
+              name: http-server
