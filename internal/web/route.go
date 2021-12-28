@@ -30,6 +30,9 @@ func StartHttpServer() {
 
 	server.Any("/trace-mock/simple", handler.SimpleHandler)
 
+	server.GET("/tasks", handler.ListTask)
+	server.POST("/task", handler.RegisterTask)
+
 	utils.Logger.Infof("Start the http server with port: {%s}", config.Config.HttpServer.Port)
 	err := server.Run(config.Config.HttpServer.Port)
 	if err != nil {

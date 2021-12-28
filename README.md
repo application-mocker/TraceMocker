@@ -20,3 +20,12 @@ type SimpleRequestBody struct {
 ```
 
 请求将直接返回下一层返回体。
+
+## 任务管理
+
+### TraceMocker 提供了任务管理能力
+
+可以通过 TraceMocker 创建任务并写入到一个Object-Mocker中，实现任务的自动调度。
+此过程中，TraceMocker 会自动从 Object-Mocker 中同步任务，并加载对应 Holder 与 配置中 NodeId 的相关数据。
+
+一个任务可以包含多个请求。

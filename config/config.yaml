@@ -1,4 +1,8 @@
 http_server:
-  port: ":3000"
+  port: ":3001"
 application:
   mod: "release"
+  node_id: "local"
+  object_client:
+    enable: true
+    host: "http://127.0.0.1:3000"
