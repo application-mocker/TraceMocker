@@ -14,6 +14,9 @@ type Info struct {
 
 	// Task values =======
 	Tasks []*Obj `json:"tasks"`
+
+	// if sync able, the Tasks will run at same time.
+	SyncAble bool `json:"sync_able"`
 }
 
 type Obj struct {
@@ -21,5 +24,3 @@ type Obj struct {
 	TaskMethod string `json:"task_method"`
 	TaskBody   string `json:"task_body"`
 }
-
-

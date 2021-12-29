@@ -3,8 +3,9 @@ package task
 import (
 	"TraceMocker/config"
 	"TraceMocker/utils"
-	"fmt"
+	"bytes"
 	"github.com/robfig/cron/v3"
+	"net/http"
 	"sync"
 )
 
@@ -73,7 +74,7 @@ func (p *Processor) Sync() {
 
 	// sync task in object-mocker
 	for _, taskItem := range allTasks {
-		if taskItem.Holder == config.NodeId{
+		if taskItem.Holder == config.NodeId {
 			p.RegisterTask(taskItem)
 			LocalTasks[taskItem.Name] = false
 		}
@@ -101,7 +102,26 @@ func (p *Processor) ListAllTask() []Info {
 }
 
 func GeneratorTaskFunc(info *Info) func() {
+	if info.Tasks == nil {
+		return func() {
+			utils.Logger.Infof("Empty task of %s", info.Name)
+		}
+	}
 	return func() {
-		fmt.Println("Test task", info)
+		for index, item := range info.Tasks {
+			body := bytes.NewReader([]byte(item.TaskBody))
+			request, err := http.NewRequest(item.TaskMethod, item.TaskUrl, body)
+			if err != nil {
+				utils.Logger.Errorf("Init task error of task: %s.%d, with err: %v", info.Name, index, err)
+				continue
+			}
+			utils.Logger.Infof("Do task: %s.%d, URL: %s, METHOD: %s", info.Name, index, item.TaskUrl, item.TaskMethod)
+
+			if info.SyncAble {
+				go http.DefaultClient.Do(request)
+			} else {
+				_, _ = http.DefaultClient.Do(request)
+			}
+		}
 	}
 }

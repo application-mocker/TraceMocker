@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: trace-mocker-np
+  name: trace-mocker-v1-np
   namespace: mockers
   labels:
     app: trace-mocker
@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: trace-mocker
-          image: mxudong/trace-mocker:v1.0.0
+          image: mxudong/trace-mocker:v1.0.2
           ports:
             - containerPort: 3000
               name: http-server
