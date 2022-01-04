@@ -2,13 +2,38 @@ package handler
 
 import (
 	"TraceMocker/internal/web/model"
+	"TraceMocker/utils"
 	"bytes"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
+
+func SingleCodeHandler(ctx *gin.Context) {
+	code := ctx.Query("code")
+
+	codeInt, err := strconv.ParseInt(code, 10, 0)
+	if err != nil {
+		ErrorCtx(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	ctx.JSON(int(codeInt), map[string]string{"code": code})
+}
+
+func PingHandler(ctx *gin.Context) {
+	utils.Logger.Info("Ping -> Pong")
+	w := ctx.Writer
+	_, err := w.WriteString("pong")
+	if err != nil {
+		ErrorCtx(ctx, http.StatusInternalServerError, err)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
 
 // SimpleHandler only GET target next-route, and return target response.
 func SimpleHandler(ctx *gin.Context) {

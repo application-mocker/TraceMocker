@@ -2,6 +2,8 @@
 
 `TM` = `TraceMocker` 的缩写
 
+提供链路测试的能力，通过指定的 URL 模拟请求。
+
 ## 路由列表
 ### SimpleMock - 基础模拟
 

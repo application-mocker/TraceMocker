@@ -20,7 +20,8 @@ type Info struct {
 }
 
 type Obj struct {
-	TaskUrl    string `json:"task_url"`
-	TaskMethod string `json:"task_method"`
-	TaskBody   string `json:"task_body"`
+	TaskHeader map[string]string `json:"task_header"`
+	TaskUrl    string            `json:"task_url"`
+	TaskMethod string            `json:"task_method"`
+	TaskBody   string            `json:"task_body"`
 }

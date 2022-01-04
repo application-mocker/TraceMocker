@@ -28,8 +28,10 @@ func StartHttpServer() {
 	server := gin.Default()
 	utils.Logger.Trace("Add routes...")
 
-	// todo: change route path
-	server.Any("/trace-mock/simple", handler.SimpleHandler)
+	server.Any("/mock/http/status-code/:code", handler.SingleCodeHandler)
+	server.Any("/mock/http/response-size/:size")
+	server.Any("/mock/http/ping", handler.PingHandler)
+	server.Any("/mock/http/simple-request", handler.SimpleHandler)
 
 	server.GET("/tasks", handler.ListTask)
 	server.POST("/task", handler.RegisterTask)

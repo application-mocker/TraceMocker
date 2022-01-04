@@ -10,5 +10,4 @@ func ErrorCtx(ctx *gin.Context, code int, err error) {
 	}
 
 	ctx.JSON(code, errObj)
-
 }
