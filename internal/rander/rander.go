@@ -14,6 +14,7 @@ func NewAdvanceRander(seed int64) *AdvanceRander {
 	}
 }
 
+// todo : add test case
 // RandInterface
 func (a AdvanceRander) RandInterface(valueMap map[interface{}]int) interface{} {
 	objList := make([]interface{}, 0, 100)
