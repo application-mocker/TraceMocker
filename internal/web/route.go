@@ -29,7 +29,7 @@ func StartHttpServer() {
 	utils.Logger.Trace("Add routes...")
 
 	server.Any("/mock/http/status-code/:code", handler.SingleCodeHandler)
-	server.Any("/mock/http/response-size/:size")
+	server.Any("/mock/http/response-size/:size", handler.SingleResponseSizeHandler)
 	server.Any("/mock/http/ping", handler.PingHandler)
 	server.Any("/mock/http/simple-request", handler.SimpleHandler)
 

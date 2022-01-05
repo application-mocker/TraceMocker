@@ -24,6 +24,25 @@ func SingleCodeHandler(ctx *gin.Context) {
 	ctx.JSON(int(codeInt), map[string]string{"code": code})
 }
 
+func SingleResponseSizeHandler(ctx *gin.Context){
+	size := ctx.Query("size")
+
+	sizeInt, err := strconv.ParseInt(size, 10, 0)
+	if err != nil{
+		ErrorCtx(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	bf := bytes.Buffer{}
+	for sizeInt > 0 {
+		bf.WriteByte('A')
+	}
+
+	w := ctx.Writer
+	_, _ = w.Write(bf.Bytes())
+	w.WriteHeader(http.StatusOK)
+}
+
 func PingHandler(ctx *gin.Context) {
 	utils.Logger.Info("Ping -> Pong")
 	w := ctx.Writer
