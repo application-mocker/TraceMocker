@@ -14,8 +14,8 @@ func NewAdvanceRander(seed int64) *AdvanceRander {
 	}
 }
 
-// todo : add test case
-// RandInterface
+// RandInterface will return random one element in value map by weigh, the input is element with weigh.
+// The weigh will recalculate. The weigh will reset to 'one weigh / sum(weighs)'
 func (a AdvanceRander) RandInterface(valueMap map[interface{}]int) interface{} {
 	objList := make([]interface{}, 0, 100)
 
