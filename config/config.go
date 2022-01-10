@@ -2,7 +2,6 @@ package config
 
 var (
 	Config *ProjectConfig
-	NodeId string
 )
 
 func init() {

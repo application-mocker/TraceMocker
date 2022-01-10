@@ -74,7 +74,7 @@ func (p *Processor) Sync() {
 
 	// sync task in object-mocker
 	for _, taskItem := range allTasks {
-		if taskItem.Holder == config.NodeId {
+		if taskItem.Holder == config.Config.Application.NodeId {
 			p.RegisterTask(taskItem)
 			LocalTasks[taskItem.Name] = false
 		}
@@ -95,7 +95,9 @@ func (p *Processor) ListAllTask() []Info {
 	res := []Info{}
 
 	for _, value := range p.infos {
-		res = append(res, *value)
+		if value.Holder == config.Config.Application.NodeId {
+			res = append(res, *value)
+		}
 	}
 
 	return res

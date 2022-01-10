@@ -55,7 +55,7 @@ func flags() {
 		NodeId = id
 	}
 
-	config.NodeId = NodeId
+	config.Config.Application.NodeId = NodeId
 }
 
 func main() {

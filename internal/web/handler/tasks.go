@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"TraceMocker/config"
 	"TraceMocker/internal/task"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -13,6 +14,10 @@ func ListTask(ctx *gin.Context) {
 func RegisterTask(ctx *gin.Context) {
 	taskObj := &task.Info{}
 	err := ctx.BindJSON(taskObj)
+	if taskObj.Holder == "" {
+		// default do task by itself
+		taskObj.Holder = config.Config.Application.NodeId
+	}
 	if err != nil {
 		ErrorCtx(ctx, http.StatusBadRequest, err)
 		return
