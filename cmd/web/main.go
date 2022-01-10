@@ -22,12 +22,15 @@ func init() {
 
 	cronInstance := cron.New()
 	cronInstance.Start()
-	_, err := cronInstance.AddFunc("@every 15s", func() {
-		fmt.Println("Start sync ")
-		task.ProcessorInstance.Sync()
-	})
-	if err != nil {
-		panic(err)
+
+	if config.Config.Application.ObjectClientConfig.Enable {
+		_, err := cronInstance.AddFunc("@every 15s", func() {
+			fmt.Println("Start sync ")
+			task.ProcessorInstance.Sync()
+		})
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 

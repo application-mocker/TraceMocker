@@ -28,8 +28,9 @@ func StartHttpServer() {
 	server := gin.Default()
 	utils.Logger.Trace("Add routes...")
 
-	server.Any("/mock/http/status-code/:code", handler.SingleCodeHandler)
-	server.Any("/mock/http/response-size/:size", handler.SingleResponseSizeHandler)
+	server.Any("/mock/http/status-code/code/:code", handler.SingleCodeHandler)
+	server.Any("/mock/http/status-code/codes", handler.RandomCode)
+	server.Any("/mock/http/response-size/size/:size", handler.SingleResponseSizeHandler)
 	server.Any("/mock/http/ping", handler.PingHandler)
 	server.Any("/mock/http/simple-request", handler.SimpleHandler)
 

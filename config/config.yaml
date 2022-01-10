@@ -4,5 +4,5 @@ application:
   mod: "release"
   node_id: "local"
   object_client:
-    enable: true
+    enable: false
     host: "http://object-mocker:3000"
