@@ -5,7 +5,6 @@ COPY . .
 RUN GOOS=linux go build -o tm cmd/web/main.go
 
 FROM alpine:3
-#FROM golang:1.15.0
 
 WORKDIR /root
 COPY --from=builder /app/tm /root/app/tm
