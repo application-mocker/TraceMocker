@@ -5,4 +5,4 @@ application:
   node_id: "local"
   object_client:
     enable: false
-    host: "http://object-mocker:3000"
+    host: "http://object-mocker.mockers.svc:3000"

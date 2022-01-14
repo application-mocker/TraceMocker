@@ -40,34 +40,35 @@ func TraceHandler(ctx *gin.Context) {
 	if err := ctx.BindJSON(&traceRequestBody); err != nil {
 		ErrorCtx(ctx, http.StatusBadRequest, err)
 	}
-	if len(traceRequestBody) > 0 {
-		nextRouteInfo := traceRequestBody[0]
-		newTraceRequestBody := traceRequestBody[1:]
-
-		if len(nextRouteInfo.NextMethod) == 0 {
-			nextRouteInfo.NextMethod = http.MethodPost
-		}
-		nextRouteInfo.NextMethod = strings.ToUpper(nextRouteInfo.NextMethod)
-
-		resp, err := utils.DoBlockRequestWithJson(
-			nextRouteInfo.NextMethod,
-			fmt.Sprintf("http://%s/mock/http/trace-mock", nextRouteInfo.NextService),
-			nil,
-			nil,
-			newTraceRequestBody)
-		if err != nil {
-			ErrorCtx(ctx, http.StatusBadRequest, err)
-			return
-		}
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			ErrorCtx(ctx, http.StatusBadRequest, err)
-			return
-		}
-		_, _ = ctx.Writer.Write(body)
-		ctx.Writer.WriteHeader(http.StatusOK)
-	} else {
+	if len(traceRequestBody) == 0 {
 		ctx.JSON(http.StatusOK, nil)
+		return
 	}
+	nextRouteInfo := traceRequestBody[0]
+	newTraceRequestBody := traceRequestBody[1:]
 
+	if len(nextRouteInfo.NextMethod) == 0 {
+		nextRouteInfo.NextMethod = http.MethodPost
+	}
+	nextRouteInfo.NextMethod = strings.ToUpper(nextRouteInfo.NextMethod)
+
+	resp, err := utils.DoBlockRequestWithJson(
+		nextRouteInfo.NextMethod,
+		// todo: how set route with service name
+		fmt.Sprintf("http://%s/mock/http/trace-mock", nextRouteInfo.NextService),
+		nil,
+		nil,
+		newTraceRequestBody)
+	if err != nil {
+		ErrorCtx(ctx, http.StatusBadRequest, err)
+		return
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		ErrorCtx(ctx, http.StatusBadRequest, err)
+		return
+	}
+	_, _ = ctx.Writer.Write(body)
+	ctx.Writer.WriteHeader(http.StatusOK)
+	return
 }

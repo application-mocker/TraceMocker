@@ -54,7 +54,10 @@ spec:
     spec:
       containers:
         - name: trace-mocker
-          image: mxudong/trace-mocker:v1.0.2
+          env:
+            - name: NODE_ID
+              value: local
+          image: mxudong/trace-mocker:v1.0.3
           ports:
             - containerPort: 3000
               name: http-server
