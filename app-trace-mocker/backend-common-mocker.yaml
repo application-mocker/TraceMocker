@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-common-mocker
+  namespace: mockers
+  labels:
+    app: backend-common-mocker
+    version: v1
+spec:
+  ports:
+    - port: 3000
+      name: http-listen
+  selector:
+    app: backend-common-mocker
+    version: v1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-common-mocker
+  namespace: mockers
+  labels:
+    app: backend-common-mocker
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-common-mocker
+      version: v1
+  template:
+    metadata:
+      namespace: mockers
+      labels:
+        app: backend-common-mocker
+        version: v1
+    spec:
+      containers:
+        - name: backend-common-mocker
+          image: mxudong/trace-mocker:v1.0.3
+          ports:
+            - containerPort: 3000
+              name: http-server
+          env:
+            - name: NODE_ID
+              value: backend-common-mocker

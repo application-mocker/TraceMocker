@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-login-mocker
+  namespace: mockers
+  labels:
+    app: front-login-mocker
+    version: v1.0.3
+spec:
+  ports:
+    - port: 3000
+      name: http-listen
+  selector:
+    app: front-login-mocker
+    version: v1.0.3
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-login-mocker
+  namespace: mockers
+  labels:
+    app: front-login-mocker
+    version: v1.0.3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-login-mocker
+      version: v1.0.3
+  template:
+    metadata:
+      namespace: mockers
+      labels:
+        app: front-login-mocker
+        version: v1.0.3
+    spec:
+      containers:
+        - name: front-login-mocker
+          image: mxudong/trace-mocker:v1.0.3
+          ports:
+            - containerPort: 3000
+              name: http-server
+          env:
+            - name: NODE_ID
+              value: front-login-mocker
