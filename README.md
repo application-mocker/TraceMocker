@@ -74,3 +74,49 @@ application:
 
 ### 创建任务
 
+- 请求路由：`/task`
+- 请求方法：`POST`
+
+请求参数:
+```json
+{
+    "name":"any-mock",
+    "cron": "@every 5s",
+    "holder": "user-mocker",
+    "tasks": [
+        {
+            "task_url": "http://backend-common-mocker:3000/mock/http/status-code/codes?code[200]=100&code[400]=50&code[500]=25",
+            "task_method": "GET"
+        }
+    ]
+}
+```
+
+```go
+// Info save all value of one task.
+type Info struct {
+
+	// The task name.
+	Name string `json:"name"`
+
+	// The holder define the runner in which TM(Trace-mocker). The value is the NodeId in config.Application.NodeId.
+	Holder string `json:"holder"`
+
+	// The time of task to run.
+	Cron string `json:"cron"`
+
+	// Task values =======
+	Tasks []*Obj `json:"tasks"`
+
+	// if sync able, the Tasks will run at same time.
+	SyncAble bool `json:"sync_able"`
+}
+
+type Obj struct {
+    TaskHeader map[string]string `json:"task_header"`
+    TaskUrl    string            `json:"task_url"`
+    TaskMethod string            `json:"task_method"`
+    TaskBody   string            `json:"task_body"`
+}
+
+```
