@@ -38,6 +38,7 @@ func StartHttpServer() {
 
 	server.GET("/tasks", handler.ListTask)
 	server.POST("/task", handler.RegisterTask)
+	server.DELETE("/task")
 
 	utils.Logger.Infof("Start the http server with port: {%s}", config.Config.HttpServer.Port)
 	err := server.Run(config.Config.HttpServer.Port)

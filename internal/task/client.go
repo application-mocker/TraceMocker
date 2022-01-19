@@ -35,6 +35,33 @@ func CreateTask(taskInfo Info) error {
 	return err
 }
 
+// DeleteTask will remove specify task by taskInfo
+func DeleteTask(taskInfo Info) error {
+	objs, err := taskClient.ListAllValue()
+	if err != nil {
+		return err
+	}
+
+	for _, item := range objs {
+		jsonObj, err := json.Marshal(item.DataValue)
+		if err != nil {
+			return err
+		}
+		taskItem := &Info{}
+		if json.Unmarshal(jsonObj, taskItem) != nil {
+			return err
+		}
+		// if res contain same name(in specify holder) tasks, remove all.
+		if taskInfo.Name == taskItem.Name && taskInfo.Holder == taskItem.Holder {
+			if _, err := taskClient.DeleteById(item.Id); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
 func ListTask() ([]*Info, error) {
 	res := make([]*Info, 0)
 	if taskClient == nil {
